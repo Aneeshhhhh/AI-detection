@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Annotation</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Poppins, sans-serif;
+        background: radial-gradient(circle at top, #1b2735, #090a0f);
+        overflow: hidden;
+        color: white;
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    /* Page Fade-in */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Floating particles */
+    .particle {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        background: rgba(255,255,255,0.4);
+        border-radius: 50%;
+        animation: floatUp 8s linear infinite;
+    }
+
+    @keyframes floatUp {
+        0% { transform: translateY(100vh); opacity: 0; }
+        50% { opacity: 1; }
+        100% { transform: translateY(-10vh); opacity: 0; }
+    }
+
+    .container {
+        text-align: center;
+        margin-top: 40px;
+    }
+
+    h1 {
+        font-size: 35px;
+        letter-spacing: 1px;
+        animation: glowText 2s infinite alternate;
+    }
+
+    @keyframes glowText {
+        from { text-shadow: 0 0 10px #00eaff; }
+        to { text-shadow: 0 0 25px #00eaff; }
+    }
+
+    /* Camera Frame */
+    #video {
+        width: 60%;
+        height: auto;
+        margin-top: 30px;
+        border-radius: 20px;
+        border: 3px solid rgba(0,255,255,0.4);
+        box-shadow: 0 0 20px rgba(0,255,255,0.3);
+        animation: pulseBorder 3s infinite ease-in-out;
+    }
+
+    @keyframes pulseBorder {
+        0% { box-shadow: 0 0 10px rgba(0,255,255,0.3); }
+        50% { box-shadow: 0 0 25px rgba(0,255,255,0.8); }
+        100% { box-shadow: 0 0 10px rgba(0,255,255,0.3); }
+    }
+
+    /* Buttons */
+    .btn {
+        padding: 15px 30px;
+        margin: 20px;
+        border: none;
+        border-radius: 30px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: 0.3s;
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        color: cyan;
+    }
+
+    .btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 15px cyan;
+    }
+</style>
+</head>
+
+<body>
+
+<!-- Floating particles -->
+<script>
+for (let i = 0; i < 40; i++) {
+    let p = document.createElement("div");
+    p.className = "particle";
+    p.style.left = Math.random() * 100 + "vw";
+    p.style.animationDelay = Math.random() * 5 + "s";
+    p.style.animationDuration = (6 + Math.random() * 5) + "s";
+    document.body.appendChild(p);
+}
+</script>
+
+<div class="container">
+    <h1>🔵 Live Annotation Panel</h1>
+    
+    <button class="btn" onclick="startAnnotation()">Start Annotation</button>
+    <button class="btn" onclick="stopAnnotation()">End Annotation</button>
+
+    <br>
+
+    <video id="video" autoplay></video>
+</div>
+
+<script>
+let video = document.getElementById("video");
+let stream;
+
+function startAnnotation() {
+    navigator.mediaDevices.getUserMedia({ video: true })
+    .then(s => {
+        stream = s;
+        video.srcObject = s;
+        video.style.opacity = "0";
+        setTimeout(() => video.style.opacity = "1", 200); // fade-in effect
+    });
+}
+
+function stopAnnotation() {
+    if (stream) {
+        stream.getTracks().forEach(t => t.stop());
+        video.srcObject = null;
+    }
+}
+</script>
+
+</body>
+</html>
