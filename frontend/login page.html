@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login Page</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #4a90e2, #8e44ad);
+      color: white;
+      overflow: hidden;
+    }
+
+    /* Floating glow circles */
+    .glow {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 50%;
+      filter: blur(40px);
+      animation: float 6s infinite ease-in-out alternate;
+    }
+    .glow:nth-child(1) { top: 10%; left: 15%; }
+    .glow:nth-child(2) { bottom: 10%; right: 20%; animation-delay: 2s; }
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(40px); }
+    }
+
+    .card {
+      width: 380px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 45px;
+      border-radius: 20px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      position: relative;
+      z-index: 3;
+    }
+
+    /* Man face container */
+    .face {
+      width: 120px;
+      margin: 0 auto 20px;
+      position: relative;
+    }
+    .head {
+      width: 120px;
+      height: 120px;
+      background: #fff;
+      border-radius: 50%;
+      position: relative;
+    }
+
+    /* Eyes */
+    .eye {
+      width: 35px;
+      height: 35px;
+      background: #fff;
+      border-radius: 50%;
+      position: absolute;
+      top: 38px;
+      overflow: hidden;
+    }
+    .eye.left { left: 22px; }
+    .eye.right { right: 22px; }
+
+    .pupil {
+      width: 18px;
+      height: 18px;
+      background: #000;
+      border-radius: 50%;
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      transition: 0.1s;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      font-size: 15px;
+    }
+    button {
+      background: #00d4ff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover { background: #00b6db; }
+  </style>
+</head>
+<body>
+
+  <div class="glow"></div>
+  <div class="glow"></div>
+
+  <div class="card">
+
+    <!-- Man face with eye-tracking effect -->
+    <div class="face">
+      <div class="head">
+        <div class="eye left"><div class="pupil"></div></div>
+        <div class="eye right"><div class="pupil"></div></div>
+      </div>
+    </div>
+
+    <h2>Welcome Back!</h2>
+    <p>All eyes on you👀</p>
+
+    <input type="text" id="username" placeholder="Enter Username" />
+    <input type="password" id="password" placeholder="Enter Password" />
+    <button onclick="login()">Login</button>
+  </div>
+
+  <script>
+    function login() {
+      window.location.href = "annotation.html";
+    }
+
+    // Eye tracking effect
+    const pupils = document.querySelectorAll('.pupil');
+    document.addEventListener('mousemove', (event) => {
+      const x = (event.clientX / window.innerWidth) * 20 - 10;
+      const y = (event.clientY / window.innerHeight) * 20 - 10;
+      pupils.forEach(pupil => {
+        pupil.style.transform = translate(${x}px, ${y}px);
+      });
+    });
+  </script>
+
+</body>
+</html>
